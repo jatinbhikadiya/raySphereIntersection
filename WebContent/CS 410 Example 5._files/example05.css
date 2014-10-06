@@ -1,0 +1,27 @@
+@CHARSET "UTF-8";
+
+canvas#drawingboard {
+	background-image: url('cs410drawingboard.png');
+    padding : 3px;
+	border: 3px solid #e7ad0f;
+}
+
+div#eq1 {
+	margin: 1em;
+}
+
+div#eq2 {
+	margin: 1em;
+}
+
+div.sylvesterMatrix {
+	display: inline-block;
+	margin: 1px 1px 1px 1px;
+	border-left:  1px black solid;
+	border-right: 1px black solid;
+	
+}
+
+table td {
+	padding: 3px;
+}

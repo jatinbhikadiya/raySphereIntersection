@@ -1,0 +1,184 @@
+<!--?xml version="1.0" encoding="utf-8"?-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- This page is based upon the CSU CS Roo PHP Course Website Template -->
+<!-- Version 2.2 January 20 2014 -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <title> CS 410 Example 5.</title>
+   
+    <!-- Webfont -->
+    <link href="CS%20410%20Example%205._files/css.css" rel="stylesheet" type="text/css">
+    <!-- Bootstrap -->
+    <link href="CS%20410%20Example%205._files/bootstrap.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+	<link href="CS%20410%20Example%205._files/styles.css" rel="stylesheet" type="text/css"> 
+<link href="CS%20410%20Example%205._files/styles.css" rel="stylesheet" type="text/css">
+<link href="CS%20410%20Example%205._files/example05.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="three.js"></script>
+<script type="text/javascript" src="CS%20410%20Example%205._files/sylvester.js"></script>
+<script type="text/javascript" src="CS%20410%20Example%205._files/drawingboardlib.js"></script>
+<script type="text/javascript" src="CS%20410%20Example%205._files/sylvesteraddin.js"></script>
+<script type="text/javascript" src="CS%20410%20Example%205._files/example05.js"></script>
+<script type="text/javascript">
+	window.onload = init;
+</script>
+</head>
+
+<body>
+
+    <div id="page">
+
+        <div id="banner">
+        	<div class="row">
+                <!-- Left side course logo acts as another link to course homepage -->
+                <div class="col-sm-4 hidden-xs" id="course_logo">
+                    <a href="http://www.cs.colostate.edu/%7Ecs410/yr2014fa/index.php" title="Course Homepage"> <img src="CS%20410%20Example%205._files/cs410webLogo09v3.png" alt="CS 410 Introduction to Computer Graphics " style="border: 0px;" height="120" width="250" align="left">
+                    </a>
+                </div>
+                
+                <!-- Center of banner provides course title, course subtitle, department name and line, and finally term -->
+                <div class="col-sm-4 col-xs-12" id="banner_title">
+                    <span class="course_title">      CS 410 Introduction to Computer Graphics  </span><br>
+                    <span class="csdept">   <a href="http://www.cs.colostate.edu/">Computer Science Department</a></span><br>
+                    <span class="course_subtitle">   Fall 2014 </span><br>
+                    <span class="course_subtitle">   CS 410 Example 5. </span><br>
+                </div>
+                <!-- Right side CSU logo is a link to CSU main homepage -->
+               	<div class="col-sm-4 hidden-xs">
+                    <div id="csu_logo">
+                        <a href="http://welcome.colostate.edu/" title="CSU Welcome Page"> <img src="CS%20410%20Example%205._files/co_state_univ_fr_grn_glow.png" alt="CSU Logo" ;="" height="91" width="205" align="right" border="0">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Collapsible Nav Bar -->
+             <nav class="navbar" role="navigation" id="navagation">
+             	<div class="pull-center">
+                    <!-- Toggles menu for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#global-navbar">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    
+                    <div class="collapse navbar-collapse" id="global-navbar">
+                        <ul class="nav navbar-nav">
+                            <li><a class="navi" href="http://www.cs.colostate.edu/%7Ecs410/yr2014fa/index.php">Home</a></li>
+                            <li><a class="navi" href="http://www.cs.colostate.edu/%7Ecs410/yr2014fa/home_syllabus.php">Syllabus</a></li>
+                            <li><a class="navi" href="http://www.cs.colostate.edu/%7Ecs410/yr2014fa/home_progress.php">Progress</a></li>
+                            <li><a class="navi" href="http://www.cs.colostate.edu/%7Ecs410/yr2014fa/home_assignments.php">Assignments</a></li>
+                          
+
+                            <li><a class="navi" href="https://ramct.colostate.edu/">Ram CT</a></li> 
+                        </ul>
+                     </div>
+                </div> 
+        	</nav>
+        </div>  <!-- End of the Banner at the top of the page -->
+
+
+<!-- Start contents of main page here. -->
+
+<div id="contents">
+	<p>Here is an example of non-uniform scaling by sx and sy about the a
+		2D pointc specified by cx and cy.</p>
+
+	<form name="enter" method="get">
+    		<table>
+			<tbody><tr>
+				
+				<td>Sphere center (ox)</td>
+				<td><input type="text" style="width: 2em" value="200" name="ox" onchange="reDraw()"></td>
+
+				<td>Sphere center (oy)</td>
+				<td><input type="text" style="width: 2em" value="50" name="oy" onchange="reDraw()"></td>
+			
+				<td>Sphere center (oz)</td>
+				<td><input type="text" style="width: 2em" value="50" name="oz" onchange="reDraw()"></td>
+			
+				<td>Sphere Radius </td>
+				<td><input type="text" style="width: 2em" value="25" name="radius" onchange="reDraw()"></td>
+
+				<td>Ray Origin (ex) </td>
+				<td><input type="text" style="width: 2em" value="10" name="ex" onchange="reDraw()"></td>
+
+				<td>Ray Origin (ey) </td>
+				<td><input type="text" style="width: 2em" value="10" name="ey" onchange="reDraw()"></td>
+
+				<td>Ray Origin (ez) </td>
+				<td><input type="text" style="width: 2em" value="10" name="ez" onchange="reDraw()"></td>
+
+				<td>Point on Ray (px) </td>
+				<td><input type="text" style="width: 2em" value="150" name="px" onchange="reDraw()"></td>
+
+				<td>Point on Ray (py) </td>
+				<td><input type="text" style="width: 2em" value="150" name="py" onchange="reDraw()"></td>
+			
+				<td>Point on Ray (pz) </td>
+				<td><input type="text" style="width: 2em" value="150" name="pz" onchange="reDraw()"></td>			
+			</tr>
+
+
+		</tbody></table>
+	</form>
+
+<!-- 	<div id="eq1"><div class="sylvesterMatrix"><table style="display:inline-table"><tbody><tr><td style="text-align: right; width:2em"> 6.00 </td><td style="text-align: right; width:2em"> 4.00 </td><td style="text-align: right; width:2em"> 4.00 </td><td style="text-align: right; width:2em"> 12.00 </td></tr><tr><td style="text-align: right; width:2em"> 16.00 </td><td style="text-align: right; width:2em"> 16.00 </td><td style="text-align: right; width:2em"> 4.00 </td><td style="text-align: right; width:2em"> 4.00 </td></tr><tr><td style="text-align: right; width:2em"> 1.00 </td><td style="text-align: right; width:2em"> 1.00 </td><td style="text-align: right; width:2em"> 1.00 </td><td style="text-align: right; width:2em"> 1.00 </td></tr></tbody></table> </div><span> = </span><div class="sylvesterMatrix"><table style="display:inline-table"><tbody><tr><td style="text-align: right; width:2em"> 1.00 </td><td style="text-align: right; width:2em"> 0.00 </td><td style="text-align: right; width:2em"> 4.00 </td></tr><tr><td style="text-align: right; width:2em"> 0.00 </td><td style="text-align: right; width:2em"> 1.00 </td><td style="text-align: right; width:2em"> 4.00 </td></tr><tr><td style="text-align: right; width:2em"> 0.00 </td><td style="text-align: right; width:2em"> 0.00 </td><td style="text-align: right; width:2em"> 1.00 </td></tr></tbody></table> </div><div class="sylvesterMatrix"><table style="display:inline-table"><tbody><tr><td style="text-align: right; width:2em"> 1.00 </td><td style="text-align: right; width:2em"> 0.00 </td><td style="text-align: right; width:2em"> 0.00 </td></tr><tr><td style="text-align: right; width:2em"> 0.00 </td><td style="text-align: right; width:2em"> 1.00 </td><td style="text-align: right; width:2em"> 0.00 </td></tr><tr><td style="text-align: right; width:2em"> 0.00 </td><td style="text-align: right; width:2em"> 0.00 </td><td style="text-align: right; width:2em"> 1.00 </td></tr></tbody></table> </div><div class="sylvesterMatrix"><table style="display:inline-table"><tbody><tr><td style="text-align: right; width:2em"> 1.00 </td><td style="text-align: right; width:2em"> 0.00 </td><td style="text-align: right; width:2em"> -4.00 </td></tr><tr><td style="text-align: right; width:2em"> 0.00 </td><td style="text-align: right; width:2em"> 1.00 </td><td style="text-align: right; width:2em"> -4.00 </td></tr><tr><td style="text-align: right; width:2em"> 0.00 </td><td style="text-align: right; width:2em"> 0.00 </td><td style="text-align: right; width:2em"> 1.00 </td></tr></tbody></table> </div><div class="sylvesterMatrix"><table style="display:inline-table"><tbody><tr><td style="text-align: right; width:2em"> 6.00 </td><td style="text-align: right; width:2em"> 4.00 </td><td style="text-align: right; width:2em"> 4.00 </td><td style="text-align: right; width:2em"> 12.00 </td></tr><tr><td style="text-align: right; width:2em"> 16.00 </td><td style="text-align: right; width:2em"> 16.00 </td><td style="text-align: right; width:2em"> 4.00 </td><td style="text-align: right; width:2em"> 4.00 </td></tr><tr><td style="text-align: right; width:2em"> 1.00 </td><td style="text-align: right; width:2em"> 1.00 </td><td style="text-align: right; width:2em"> 1.00 </td><td style="text-align: right; width:2em"> 1.00 </td></tr></tbody></table> </div></div> -->
+<!-- 	<div id="eq2"><div class="sylvesterMatrix"><table style="display:inline-table"><tbody><tr><td style="text-align: right; width:2em"> 6.00 </td><td style="text-align: right; width:2em"> 4.00 </td><td style="text-align: right; width:2em"> 4.00 </td><td style="text-align: right; width:2em"> 12.00 </td></tr><tr><td style="text-align: right; width:2em"> 16.00 </td><td style="text-align: right; width:2em"> 16.00 </td><td style="text-align: right; width:2em"> 4.00 </td><td style="text-align: right; width:2em"> 4.00 </td></tr><tr><td style="text-align: right; width:2em"> 1.00 </td><td style="text-align: right; width:2em"> 1.00 </td><td style="text-align: right; width:2em"> 1.00 </td><td style="text-align: right; width:2em"> 1.00 </td></tr></tbody></table> </div><span> = </span><div class="sylvesterMatrix"><table style="display:inline-table"><tbody><tr><td style="text-align: right; width:2em"> 1.00 </td><td style="text-align: right; width:2em"> 0.00 </td><td style="text-align: right; width:2em"> 0.00 </td></tr><tr><td style="text-align: right; width:2em"> 0.00 </td><td style="text-align: right; width:2em"> 1.00 </td><td style="text-align: right; width:2em"> 0.00 </td></tr><tr><td style="text-align: right; width:2em"> 0.00 </td><td style="text-align: right; width:2em"> 0.00 </td><td style="text-align: right; width:2em"> 1.00 </td></tr></tbody></table> </div><div class="sylvesterMatrix"><table style="display:inline-table"><tbody><tr><td style="text-align: right; width:2em"> 6.00 </td><td style="text-align: right; width:2em"> 4.00 </td><td style="text-align: right; width:2em"> 4.00 </td><td style="text-align: right; width:2em"> 12.00 </td></tr><tr><td style="text-align: right; width:2em"> 16.00 </td><td style="text-align: right; width:2em"> 16.00 </td><td style="text-align: right; width:2em"> 4.00 </td><td style="text-align: right; width:2em"> 4.00 </td></tr><tr><td style="text-align: right; width:2em"> 1.00 </td><td style="text-align: right; width:2em"> 1.00 </td><td style="text-align: right; width:2em"> 1.00 </td><td style="text-align: right; width:2em"> 1.00 </td></tr></tbody></table> </div></div> -->
+
+	<canvas id="dboard" width="600" height="400"></canvas>
+
+</div>
+<!-- End of contents -->
+<!-- Entering the common footer, page termination -->
+
+<div id="footer">
+	<div class="row">
+		<div class="col-sm-3 col-xs-12" id="footerLeft">
+			<!-- Session time and originating IP address shown to user.   -->
+			<!-- Use the user information as a link to login/logout page. -->
+           Session Time 10 Secs. <br>
+           Originating IP 10.84.44.237 <br>
+           User: 
+           <a class="foot" href="http://www.cs.colostate.edu/%7Ecs410/yr2014fa/ztools/authenticateLogin.php"> Guest </a>
+           
+        </div>
+		<div class="col-sm-6 col-xs-12" id="footerCenter">
+			<a class="foot" href="http://admissions.colostate.edu/">Apply to CSU</a>
+			| <a class="foot" href="http://welcome.colostate.edu/info-contact.aspx">Contact CSU</a>
+			| <a class="foot" href="http://welcome.colostate.edu/info-disclaimer.aspx">Disclaimer</a>
+			| <a class="foot" href="http://welcome.colostate.edu/info-equalop.aspx">Equal
+				Opportunity</a> <br> Colorado State University, Fort Collins, CO
+			80523 USA<br> © 2014 Colorado State University
+		</div>
+		<!-- End of footer center division -->
+		<!-- End of footer left division -->
+		<div class="col-sm-3 col-xs-12">
+			<div id="footerRight">
+				<a href="http://www.cs.colostate.edu/"> <img src="CS%20410%20Example%205._files/csBuildingLowerRight.png" alt="CS Department" style="border: 0px;" height="48" width="185"></a>
+			</div>
+		</div>
+		<!-- End of footer right division -->
+	</div>
+</div>
+<!-- End of the footer division -->
+
+</div>
+<!-- Closes the page contents division opened by the ct310header -->
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="CS%20410%20Example%205._files/jquery-1.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="CS%20410%20Example%205._files/bootstrap.js"></script>
+
+
+
+</body></html>
