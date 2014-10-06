@@ -75,10 +75,10 @@ function reDraw() {
 	
 	
 	//alert(redraw_msg);
-	cntxt.setTransform(1, 0, 0, -1, 0, h);
-	cntxt.clearRect(0, 0, w, h);
+	cntxt.setTransform(1, 0, 0, -1, 0, h/2);
+	cntxt.clearRect(0, -h/2, w, h);
 	drawSphere(ox, oy, radius);
-	drawRay(ex, ey, px, py);
+	drawRay(ex, ey);
 	drawLine(ex,ey,ox,oy);
 }
 
@@ -92,7 +92,7 @@ function drawRay(startx, starty) {
 	var line = new Line(startx, starty, vecR.e(1) * 100, vecR.e(2) * 100);
 	// draw the line
 	line.drawWithArrowheads(cntxt);
-	var line2 = new Line(vecR.e(1) * 100, vecR.e(2) * 100, vecR.e(1) * 10000, vecR.e(2) * 10000);
+	var line2 = new Line(startx+(vecR.e(1) * 100), starty+(vecR.e(2) * 100),startx+( vecR.e(1) * 10000),startx+( vecR.e(2) * 10000));
 	// draw the line
 	line.drawWithArrowheads(cntxt);
 	line2.drawWithArrowheads(cntxt);
@@ -134,6 +134,20 @@ function translateTo2D(){
 	oy = axisY.dot($V([ox,oy,oz]))
 	oz = axisZ.dot($V([ox,oy,oz]))
 	
+	ex = axisX.dot($V([ex,ey,ez]))
+	ey = axisY.dot($V([ex,ey,ez]))
+	ez = axisZ.dot($V([ex,ey,ez]))
+	
+	// we need to find the new point on the ray and ray direction
+	px = axisX.dot($V([px,py,pz]))
+	py = axisY.dot($V([px,py,pz]))
+	pz = axisZ.dot($V([px,py,pz]))
+	
+	vecR = $V([px-ex,py-ey,pz-ez]);
+	
+
+	vecR = vecR.toUnitVector();
+
 	
 	alert("O :"+ox+" "+ oy+ " "+ oz)
 }
