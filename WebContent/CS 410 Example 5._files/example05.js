@@ -14,47 +14,7 @@ var px // Z coordinate of Point on Ray
 var vecR // Ray direction
 
 
-
-
-/*function drawIt() {
-	var cx = document.enter.cx.value;
-	var cy = document.enter.cy.value;
-	var radius = document.enter.radius.value;
-	var startx = document.enter.startx.value;
-	var starty = document.enter.starty.value;
-	var stopx = document.enter.stopx.value;
-	var stopy = document.enter.stopy.value;
-
-	//drawCanvas(0.75, 0.5);
-	drawSphere(cx, cy, radius);
-	drawRay(startx, starty, stopx, stopy);
-}
-*/
-
-//This function draws sphere
-
-function drawSphere(cx, cy, radius) {
-	cntxt.save();
-	//cntxt.transform(1.0, 0.0, 0.0, 1.0, cx, cy)
-	cntxt.beginPath();
-	//cntxt.fillStyle = "Green";
-	//cntxt.arc(0.125, 0.125, 0.025, 0.00 * Math.PI, 2.00 * Math.PI, false);
-	cntxt.arc(cx, cy, radius, 0.00 * Math.PI, 2.00 * Math.PI, false);
-	cntxt.stroke();
-	cntxt.fillStyle = "Blue";
-	cntxt.font = "10px Arial";
-	//cntxt.fillText("Drawing a circle at (" + cx + ", " + cy + ") with radius: "
-		//	+ radius, 20, 10);
-	cntxt.restore();
-
-	//htmletxt = document.getElementById("contents");
-	//htmletxt.innerHTML += "Drawing a circle at (" + cx + ", " + cy + ") with radius: " + radius;
-
-}
-
-
-
-// This function is main Draw function which will be called everytime any value is updated.
+//This function is main Draw function which will be called everytime any value is updated.
 function reDraw() {
 	ox = document.enter.ox.value;
 	oy = document.enter.oy.value;
@@ -75,38 +35,12 @@ function reDraw() {
 	
 	
 	//alert(redraw_msg);
-	cntxt.setTransform(1, 0, 0, -1, 0, h/2);
-	cntxt.clearRect(0, -h/2, w, h);
+	cntxt.setTransform(1, 0, 0, -1, w/4, h/2);
+	cntxt.clearRect(-w/4, -h/2, w, h);
 	drawSphere(ox, oy, radius);
 	drawRay(ex, ey);
-	drawLine(ex,ey,ox,oy);
-}
-
-
-//This function draws ray 
-
-function drawRay(startx, starty) {
-	cntxt.save()
-	cntxt.moveTo(startx, starty);
-	//cntxt.lineTo(stopx*100, stopy*100);
-	var line = new Line(startx, starty, vecR.e(1) * 100, vecR.e(2) * 100);
-	// draw the line
-	line.drawWithArrowheads(cntxt);
-	var line2 = new Line(startx+(vecR.e(1) * 100), starty+(vecR.e(2) * 100),startx+( vecR.e(1) * 10000),startx+( vecR.e(2) * 10000));
-	// draw the line
-	line.drawWithArrowheads(cntxt);
-	line2.drawWithArrowheads(cntxt);
-	//cntxt.stroke();
-	cntxt.restore()
-}
-
-function drawLine(startx,starty,stopx,stopy){
-	cntxt.save()
-	cntxt.beginPath();
-	cntxt.moveTo(startx, starty);
-	cntxt.lineTo(stopx, stopy);
-	cntxt.stroke();
-	cntxt.restore();	
+	drawLine(ex,ey,ox,oy,"blue");
+	raySphereInter();
 }
 
 //This function finds new projecting matrix which will translate over 3D points to 2D points. The vector from ray origin to sphere center is X axis in new coordinate system. 
@@ -128,29 +62,83 @@ function translateTo2D(){
 	var axisY = axisZ.cross(axisX);
 
 	//alert("axisX.axisY ="+ axisX.dot(axisY) +" axisY.axisZ ="+ axisY.dot(axisZ) +" axisX.axisZ ="+ axisX.dot(axisZ) )
-	alert("X :[ "+axisX.e(1)+" "+axisX.e(2)+" "+ axisX.e(3) +"] \n Y :[ "+axisY.e(1)+" "+axisY.e(2)+" "+ axisY.e(3) +"] \n Z :[ "+axisZ.e(1)+" "+axisZ.e(2)+" "+ axisZ.e(3)+"]" )
+//	alert("X :[ "+axisX.e(1)+" "+axisX.e(2)+" "+ axisX.e(3) +"] \n Y :[ "+axisY.e(1)+" "+axisY.e(2)+" "+ axisY.e(3) +"] \n Z :[ "+axisZ.e(1)+" "+axisZ.e(2)+" "+ axisZ.e(3)+"]" )
 	
-	ox = axisX.dot($V([ox,oy,oz]))
-	oy = axisY.dot($V([ox,oy,oz]))
-	oz = axisZ.dot($V([ox,oy,oz]))
+	var tempO = $V([ox,oy,oz]);
+	//alert("O :"+ox+" "+ oy+ " "+ oz)
+	ox = axisX.dot(tempO);
+	//alert("O :"+ox+" "+ oy+ " "+ oz)
+	oy = axisY.dot(tempO);
+	//alert("O :"+ox+" "+ oy+ " "+ oz)
+	oz = axisZ.dot(tempO);
 	
-	ex = axisX.dot($V([ex,ey,ez]))
-	ey = axisY.dot($V([ex,ey,ez]))
-	ez = axisZ.dot($V([ex,ey,ez]))
+	
+	var tempE = $V([ex,ey,ez]);
+	ex = axisX.dot(tempE)
+	ey = axisY.dot(tempE)
+	ez = axisZ.dot(tempE)
 	
 	// we need to find the new point on the ray and ray direction
-	px = axisX.dot($V([px,py,pz]))
-	py = axisY.dot($V([px,py,pz]))
-	pz = axisZ.dot($V([px,py,pz]))
+	var tempP = $V([px,py,pz])
+	px = axisX.dot(tempP)
+	py = axisY.dot(tempP)
+	pz = axisZ.dot(tempP)
 	
 	vecR = $V([px-ex,py-ey,pz-ez]);
-	
 
 	vecR = vecR.toUnitVector();
-
-	
-	alert("O :"+ox+" "+ oy+ " "+ oz)
 }
+
+
+//This function draws sphere
+
+function drawSphere(cx, cy, radius) {
+	cntxt.save();
+	//cntxt.transform(1.0, 0.0, 0.0, 1.0, cx, cy)
+	cntxt.beginPath();
+	//cntxt.fillStyle = "Green";
+	//cntxt.arc(0.125, 0.125, 0.025, 0.00 * Math.PI, 2.00 * Math.PI, false);
+	cntxt.strokeStyle = "blue";
+	cntxt.arc(cx, cy, radius, 0.00 * Math.PI, 2.00 * Math.PI, false);
+	cntxt.stroke();
+	cntxt.fillStyle = "Blue";
+	cntxt.font = "10px Arial";
+	//cntxt.fillText("Drawing a circle at (" + cx + ", " + cy + ") with radius: "
+		//	+ radius, 20, 10);
+	cntxt.restore();
+
+	//htmletxt = document.getElementById("contents");
+	//htmletxt.innerHTML += "Drawing a circle at (" + cx + ", " + cy + ") with radius: " + radius;
+
+}
+
+//This function draws ray 
+
+function drawRay(startx, starty) {
+	cntxt.save()
+	cntxt.moveTo(startx, starty);
+	//cntxt.lineTo(stopx*100, stopy*100);
+	var line = new Line(startx, starty, startx+(vecR.e(1) * 100),(starty+ vecR.e(2) * 100));
+	// draw the line
+	line.drawWithArrowheads(cntxt);
+	var line2 = new Line( startx+(vecR.e(1) * 100),(starty+ vecR.e(2) * 100),startx+( vecR.e(1) * 10000),startx+( vecR.e(2) * 10000));
+	// draw the line
+//	line.drawWithArrowheads(cntxt);
+	line2.drawWithArrowheads(cntxt);
+	//cntxt.stroke();
+	cntxt.restore()
+}
+
+function drawLine(startx,starty,stopx,stopy,color){
+	cntxt.strokeStyle = color;
+	cntxt.save()
+	cntxt.beginPath();
+	cntxt.moveTo(startx, starty);
+	cntxt.lineTo(stopx, stopy);
+	cntxt.stroke();
+	cntxt.restore();	
+}
+
 
 
 //Below three function draws line with the arrowhead. This is useful to show the ray direction.
@@ -195,6 +183,40 @@ Line.prototype.drawArrowhead = function(ctx, x, y, radians) {
 	ctx.restore();
 	ctx.fill();
 }
+
+
+function raySphereInter(){
+	
+	vecC =$V([ox-ex, oy-ey, oz-ez]);
+	magC = vecC.modulus()
+	
+	v = vecR.dot(vecC)
+	
+	drawLine(ox, oy, ex+(v*vecR.e(1)), ey+(v*vecR.e(2)),"black")
+	var r2 = Math.pow(radius,2);
+	var c2 = Math.pow(magC,2);
+	var v2 = Math.pow(v,2);
+	
+	if(r2>(c2-v2)){
+		d = Math.sqrt(r2 - (c2-v2))
+		pIx = ex+((v-d)*vecR.e(1))
+		pIy = ey+((v-d)*vecR.e(2))
+		pIz = ez+((v-d)*vecR.e(3))
+		drawLine(ox, oy, pIx , pIy,"red")
+		
+		alert("Point of intersection : ["+pIx+" "+pIy+ " "+ pIz+" ].")
+	}
+	else{
+
+		alert("No intersection found.")
+	}
+	
+	
+	
+
+	
+}
+
 
 function init() {
 	br = "<br>"
