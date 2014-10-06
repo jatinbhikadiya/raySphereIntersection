@@ -1,4 +1,22 @@
-function drawIt() {
+var ox // X coordinate of Sphere Center
+var oy // Y coordinate of Sphere Center
+var oz // Z coordinate of Sphere Center
+var radius// radius of Sphere
+
+var ex // X coordinate of Ray Origin
+var ex // Y coordinate of Ray Origin
+var ex // Z coordinate of Ray Origin
+
+var px // X coordinate of Point on Ray
+var px // Y coordinate of Point on Ray
+var px // Z coordinate of Point on Ray
+
+var vecR // Ray direction
+
+
+
+
+/*function drawIt() {
 	var cx = document.enter.cx.value;
 	var cy = document.enter.cy.value;
 	var radius = document.enter.radius.value;
@@ -11,6 +29,9 @@ function drawIt() {
 	drawSphere(cx, cy, radius);
 	drawRay(startx, starty, stopx, stopy);
 }
+*/
+
+//This function draws sphere
 
 function drawSphere(cx, cy, radius) {
 	cntxt.save();
@@ -31,15 +52,9 @@ function drawSphere(cx, cy, radius) {
 
 }
 
-function drawCircle(cx, cy, radius) {
-	cntxt.save();
-	htmletxt = document.getElementById("contents");
-	htmletxt.innerHTML += "Drawing a circle at (" + cx + ", " + cy
-			+ ") with radius: " + radius;
-	cntxt.restore();
 
-}
 
+// This function is main Draw function which will be called everytime any value is updated.
 function reDraw() {
 	ox = document.enter.ox.value;
 	oy = document.enter.oy.value;
@@ -64,16 +79,20 @@ function reDraw() {
 	cntxt.clearRect(0, 0, w, h);
 	drawSphere(ox, oy, radius);
 	drawRay(ex, ey, px, py);
+	drawLine(ex,ey,ox,oy);
 }
 
-function drawRay(startx, starty, stopx, stopy) {
+
+//This function draws ray 
+
+function drawRay(startx, starty) {
 	cntxt.save()
 	cntxt.moveTo(startx, starty);
 	//cntxt.lineTo(stopx*100, stopy*100);
-	var line = new Line(startx, starty, stopx, stopy);
+	var line = new Line(startx, starty, vecR.e(1) * 100, vecR.e(2) * 100);
 	// draw the line
 	line.drawWithArrowheads(cntxt);
-	var line2 = new Line(stopx, stopy, stopx * 1000, stopy * 1000);
+	var line2 = new Line(vecR.e(1) * 100, vecR.e(2) * 100, vecR.e(1) * 10000, vecR.e(2) * 10000);
 	// draw the line
 	line.drawWithArrowheads(cntxt);
 	line2.drawWithArrowheads(cntxt);
@@ -81,6 +100,17 @@ function drawRay(startx, starty, stopx, stopy) {
 	cntxt.restore()
 }
 
+function drawLine(startx,starty,stopx,stopy){
+	cntxt.save()
+	cntxt.beginPath();
+	cntxt.moveTo(startx, starty);
+	cntxt.lineTo(stopx, stopy);
+	cntxt.stroke();
+	cntxt.restore();	
+}
+
+//This function finds new projecting matrix which will translate over 3D points to 2D points. The vector from ray origin to sphere center is X axis in new coordinate system. 
+//Vector perpendicular to X axis and Ray direction is Z axis for new coordinate system. Y axis cross product of X axis and Z axis.
 function translateTo2D(){
 	axisX =$V([ox-ex, oy-ey, oz-ez]);
 
@@ -97,13 +127,19 @@ function translateTo2D(){
 
 	var axisY = axisZ.cross(axisX);
 
-	alert("axisX.axisY ="+ axisX.dot(axisY) +" axisY.axisZ ="+ axisY.dot(axisZ) +" axisX.axisZ ="+ axisX.dot(axisZ) )
+	//alert("axisX.axisY ="+ axisX.dot(axisY) +" axisY.axisZ ="+ axisY.dot(axisZ) +" axisX.axisZ ="+ axisX.dot(axisZ) )
 	alert("X :[ "+axisX.e(1)+" "+axisX.e(2)+" "+ axisX.e(3) +"] \n Y :[ "+axisY.e(1)+" "+axisY.e(2)+" "+ axisY.e(3) +"] \n Z :[ "+axisZ.e(1)+" "+axisZ.e(2)+" "+ axisZ.e(3)+"]" )
-	cntxt.restore();
-
 	
+	ox = axisX.dot($V([ox,oy,oz]))
+	oy = axisY.dot($V([ox,oy,oz]))
+	oz = axisZ.dot($V([ox,oy,oz]))
+	
+	
+	alert("O :"+ox+" "+ oy+ " "+ oz)
 }
 
+
+//Below three function draws line with the arrowhead. This is useful to show the ray direction.
 
 function Line(x1, y1, x2, y2) {
 	this.x1 = x1;
@@ -159,85 +195,3 @@ function init() {
 
 /***********************************************************/
 
-/* Building on previous examples, here is rotation about the origin.
- * 
- * Ross    9/5/2013
- */
-
-var vtsrm = $M([ [ 6, 16, 1 ], [ 4, 16, 1 ], [ 4, 4, 1 ], [ 12, 4, 1 ] ]);
-var vts = vtsrm.transpose();
-var mtrot; /* this will become the rotation matrix */
-var mttfw; /* this will become the translation forward */
-var mttbk; /* this will become the translation backward */
-var mt; /* this will become the composition of the three above */
-var vtsa; /* this will become the vertices after translation */
-
-function drawFigure(color, vm) {
-	contxt.save();
-	contxt.strokeStyle = color;
-	contxt.beginPath();
-	contxt.moveTo(vm.e(1, 1), vm.e(2, 1));
-	contxt.lineTo(vm.e(1, 2), vm.e(2, 2));
-	contxt.lineTo(vm.e(1, 3), vm.e(2, 3));
-	contxt.lineTo(vm.e(1, 4), vm.e(2, 4));
-	contxt.stroke();
-	contxt.restore();
-}
-
-/*
- * Start here to embelish the use of the sylvester matrix library. In
- * particular, construct a 2D homogeneous translation matrix
- */
-
-function matRotate2D(theta) {
-	var c = Math.cos(theta * Math.PI / 180);
-	var s = Math.sin(theta * Math.PI / 180);
-	return $M([ [ c, -s, 0 ], [ s, c, 0 ], [ 0, 0, 1 ] ]);
-}
-
-function matTranslate2D(dx, dy) {
-	return $M([ [ 1, 0, dx ], [ 0, 1, dy ], [ 0, 0, 1 ] ]);
-}
-
-/*
- * Build up the equation in close to natural linear algebraic form using
- * matrices
- * 
- */
-
-function formatEquation() {
-	eq1 = document.getElementById('eq1');
-	eq1.innerHTML = mat2html(vtsa) + "<span> = </span>" + mat2html(mttbk)
-			+ mat2html(mtrot) + mat2html(mttfw) + mat2html(vts);
-	eq2 = document.getElementById('eq2');
-	eq2.innerHTML = mat2html(vtsa) + "<span> = </span>" + mat2html(tm)
-			+ mat2html(vts);
-}
-
-function moveit() {
-	contxt.clearRect(-30, -20, 60, 40);
-	drawAxes(contxt);
-	drawFigure("yellow", vts);
-	theta = parseInt(document.enter.theta.value);
-	cx = parseInt(document.enter.cx.value);
-	cy = parseInt(document.enter.cy.value);
-	mtrot = matRotate2D(theta);
-	mttfw = matTranslate2D(-cx, -cy);
-	mttbk = matTranslate2D(cx, cy);
-	tm = mttbk.x(mtrot.x(mttfw));
-	vtsa = tm.x(vts);
-	drawFigure("green", vtsa);
-	formatEquation();
-}
-
-/*
- function init() {
- drawingboard = document.getElementById("drawingboard");
- contxt = drawingboard.getContext('2d');
- // Move the origin to center of 600 by 400 drawingboard
- contxt.translate(300, 200);
- // Ten pixels on screen equals on unit in canvas coordinates
- contxt.scale(10, -10);
- moveit();
- }
- */
